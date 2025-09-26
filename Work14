@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+int char_to_value(char c) 
+{
+    if (isdigit(c)) return c - '0';
+    if (isupper(c)) return c - 'A' + 10;
+    if (islower(c)) return c - 'a' + 10;
+    return -1;
+}
+
+int get_min_base(const char *number) 
+{
+    int min_base = 2;
+    for (const char *p = number; *p; p++) 
+    {
+        int value = char_to_value(*p);
+        if (value >= min_base) 
+        {
+            min_base = value + 1;
+        }
+    }
+    return (min_base > 36) ? -1 : min_base;
+}
+
+int main(int argc, char *argv[]) {
+    if (argc != 3) {
+        printf("Использование: %s <входной файл> <выходной файл>\n", argv[0]);
+        return 1;
+    }
+
+    FILE *input = fopen(argv[1], "r");
+    FILE *output = fopen(argv[2], "w");
+    if (!input || !output) {
+        printf("Ошибка открытия файлов.\n");
+        return 1;
+    }
+
+    char number[100];
+    while (fscanf(input, " %99s", number) == 1) 
+    {
+        int min_base = get_min_base(number);
+        if (min_base != -1) 
+        {
+            int decimal_value = string_to_int(number, min_base);
+            fprintf(output, "%s %d %d\n", number, min_base, decimal_value);
+        }
+    }
+
+    fclose(input);
+    fclose(output);
+    return 0;
+}
+
