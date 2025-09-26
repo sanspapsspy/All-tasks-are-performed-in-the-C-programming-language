@@ -1,1 +1,274 @@
+> ⚡️ChatGPT & NEIROSETI GPT:
+Вот решения для каждого из заданий на C:
+
+5. Функция быстрого возведения в степень:
+
+```c
+#include <stdio.h>
+
+int quick_pow(int base, int exp) {
+    if (exp == 0) return 1;
+    int result = 1;
+    while (exp > 0) {
+        if (exp % 2 == 1) result *= base;
+        base *= base;
+        exp /= 2;
+    }
+    return result;
+}
+
+int main() {
+    int base, exp;
+    printf("Введите основание: ");
+    scanf("%d", &base);
+    printf("Введите степень: ");
+    scanf("%d", &exp);
+    printf("Результат: %d\n", quick_pow(base, exp));
+    return 0;
+}
+```
+
+6. Поиск максимального и минимального элемента в массиве:
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define SIZE 10
+
+void find_min_max(int arr[], int size, int *min, int *max, int *min_index, int *max_index) {
+    *min = *max = arr[0];
+    *min_index = *max_index = 0;
+    
+    for (int i = 0; i < size; i++) {
+        if (arr[i] < *min) {
+            *min = arr[i];
+            *min_index = i;
+        }
+        if (arr[i] > *max) {
+            *max = arr[i];
+            *max_index = i;
+        }
+    }
+}
+
+int main() {
+    int arr[SIZE];
+    srand(time(0));
+
+    for (int i = 0; i < SIZE; i++) {
+        arr[i] = rand() % 10001;
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+
+    int min, max, min_index, max_index;
+    find_min_max(arr, SIZE, &min, &max, &min_index, &max_index);
+    printf("Минимум: %d на индексе %d\n", min, min_index);
+    printf("Максимум: %d на индексе %d\n", max, max_index);
+    return 0;
+}
+```
+
+7. Изменение регистра букв в строке:
+
+```c
+#include <stdio.h>
+#include <ctype.h>
+#include <stdbool.h>
+#include <string.h>
+
+bool is_prime(int n) {
+    if (n <= 1) return false;
+    for (int i = 2; i * i <= n; i++) {
+        if (n % i == 0) return false;
+    }
+    return true;
+}
+
+void modify_string(char str[]) {
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (i % 2 == 0 && strchr("aeiouAEIOU", str[i])) {
+            str[i] = toupper(str[i]);
+        } else if (is_prime(i) && isalpha(str[i])) {
+            str[i] = tolower(str[i]);
+        }
+    }
+}
+
+int main() {
+    char str[100];
+    printf("Введите строку: ");
+    fgets(str, 100, stdin);
+    modify_string(str);
+    printf("Модифицированная строка: %s\n", str);
+    return 0;
+}
+```
+
+8. Переворот строки:
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+void reverse_string(char str[]) {
+    int n = strlen(str);
+    for (int i = 0; i < n / 2; i++) {
+        char temp = str[i];
+        str[i] = str[n - i - 1];
+        str[n - i - 1] = temp;
+    }
+}
+
+int main() {
+    char str[100];
+    printf("Введите строку: ");
+    fgets(str, 100, stdin);
+    str[strcspn(str, "\n")] = '\0'; // Удаление символа новой строки
+    reverse_string(str);
+    printf("Перевернутая строка: %s\n", str);
+    return 0;
+}
+```
+
+9. Проверка на палиндром:
+
+```c
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+bool is_palindrome(char str[]) {
+    int n = strlen(str);
+    for (int i = 0; i < n / 2; i++) {
+        if (str[i] != str[n - i - 1]) return false;
+    }
+    return true;
+}
+
+int main() {
+    char str[100];
+    printf("Введите строку: ");
+    fgets(str, 100, stdin);
+    str[strcspn(str, "\n")] = '\0'; 
+    if (is_palindrome(str)) {
+        printf("Строка является палиндромом.\n");
+    } else {
+        printf("Строка не является палиндромом.\n");
+    }
+    return 0;
+}
+```
+
+10. Конкатенация строк:
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+void my_strcat(char *dest, const char *src) {
+    while (*dest) dest++; // Находим конец первой строки
+    while ((*dest++ = *src++)); // Копируем вторую строку
+}
+
+int main() {
+    char str1[100], str2[50];
+    printf("Введите первую строку: ");
+    fgets(str1, 100, stdin);
+    str1[strcspn(str1, "\n")] = '\0'; 
+    printf("Введите вторую строку: ");
+    fgets(str2, 50, stdin);
+    str2[strcspn(str2, "\n")] = '\0'; 
+    my_strcat(str1, str2);
+    printf("Результат конкатенации: %s\n", str1);
+    return 0;
+}
+```
+
+11. Сравнение строк:
+
+```c
+#include <stdio.h>
+
+int my_strcmp(const char *s1, const char *s2) {
+    while (*s1 && (*s1 == *s2)) {
+        s1++;
+        s2++;
+    }
+
+> ⚡️ChatGPT & NEIROSETI GPT:
+return *(unsigned char *)s1 - *(unsigned char *)s2;
+}
+
+int main() {
+    char str1[100], str2[100];
+    printf("Введите первую строку: ");
+    fgets(str1, 100, stdin);
+    str1[strcspn(str1, "\n")] = '\0'; 
+    printf("Введите вторую строку: ");
+    fgets(str2, 100, stdin);
+    str2[strcspn(str2, "\n")] = '\0'; 
+
+    int result = my_strcmp(str1, str2);
+    if (result < 0) {
+        printf("Первая строка меньше второй.\n");
+    } else if (result > 0) {
+        printf("Первая строка больше второй.\n");
+    } else {
+        printf("Строки равны.\n");
+    }
+    return 0;
+}
+```
+
+12. Преобразование числа в строку в другой системе счисления:
+
+```c
+#include <stdio.h>
+
+void int_to_string(int num, char *str, int base) {
+    const char *digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    int i = 0, is_negative = (num < 0 && base == 10);
+  
+    if (is_negative) num = -num;
+  
+    do {
+        str[i++] = digits[num % base];
+        num /= base;
+    } while (num > 0);
+  
+    if (is_negative) str[i++] = '-';
+  
+    str[i] = '\0';
+
+    // Перевернуть строку
+    for (int j = 0; j < i / 2; j++) {
+        char temp = str[j];
+        str[j] = str[i - j - 1];
+        str[i - j - 1] = temp;
+    }
+}
+
+int main() {
+    int num, base;
+    char result[100];
+    printf("Введите целое число: ");
+    scanf("%d", &num);
+    printf("Введите основание (от 2 до 36): ");
+    scanf("%d", &base);
+
+    if (base < 2 || base > 36) {
+        printf("Недопустимое основание.\n");
+        return 1;
+    }
+
+    int_to_string(num, result, base);
+    printf("Представление числа в системе счисления с основанием %d: %s\n", base, result);
+    return 0;
+}
+```
+
+Эти программы позволяют пользователю взаимодействовать с системой, запрашивать данные и выводить результаты.
 
