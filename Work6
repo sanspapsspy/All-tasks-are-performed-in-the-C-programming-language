@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define SIZE 100
+
+void findMaxMin(int arr[], int size, int *maxIndex, int *minIndex) {
+    int maxValue = arr[0], minValue = arr[0];
+    for(int i = 1; i < size; ++i) {
+        if(arr[i] > maxValue) {
+            maxValue = arr[i];
+            *maxIndex = i;
+        }
+        if(arr[i] < minValue) {
+            minValue = arr[i];
+            *minIndex = i;
+        }
+    }
+}
+
+int main() {
+    srand(time(NULL));
+    int array[SIZE];
+    for(int i = 0; i < SIZE; ++i) {
+        array[i] = rand() % 20001 - 10000; // случайные значения от -10000 до +10000
+    }
+    
+    int maxIndex, minIndex;
+    findMaxMin(array, SIZE, &maxIndex, &minIndex);
+    
+    printf("Максимальное значение: %d (индекс %d)\\nМинимальное значение: %d (индекс %d)\\n",
+           array[maxIndex], maxIndex, array[minIndex], minIndex);
+    
+    return 0;
+}
