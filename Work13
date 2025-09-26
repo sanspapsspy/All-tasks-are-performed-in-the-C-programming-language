@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+int char_to_value(char c) {
+    if (c >= '0' && c <= '9') return c - '0';
+    if (c >= 'A' && c <= 'Z') return c - 'A' + 10;
+    if (c >= 'a' && c <= 'z') return c - 'a' + 10;
+    return -1; // недопустимые символы
+}
+
+int string_to_int(const char *str, int base) {
+    int result = 0;
+    while (*str) {
+        int value = char_to_value(*str);
+        if (value < 0 || value >= base) {
+            printf("Недопустимый символ %c для основания %d\n", *str, base);
+            return -1;
+        }
+        result = result * base + value;
+        str++;
+    }
+    return result;
+}
+
+int main() {
+    char str[100];
+    int base;
+    printf("Введите строку (число): ");
+    scanf("%s", str);
+    printf("Введите основание (от 2 до 36): ");
+    scanf("%d", &base);
+
+    if (base < 2 || base > 36) {
+        printf("Недопустимое основание.\n");
+        return 1;
+    }
+
+    int result = string_to_int(str, base);
+    if (result != -1) {
+        printf("Значение в десятичной системе: %d\n", result);
+    }
+    return 0;
+}
