@@ -1,9 +1,24 @@
 #include <stdio.h>
 #include <string.h>
-#include <ctype.h>
+#include <stdbool.h>
 
-bool isPalindrome(const char *str) {
-    int len =
-...
+bool is_palindrome(char str[]) {
+    int n = strlen(str);
+    for (int i = 0; i < n / 2; i++) {
+        if (str[i] != str[n - i - 1]) return false;
+    }
+    return true;
+}
 
-Чтобы увидеть весь текст, нажмите на кнопку *Развернуть весь ответ* ⬇️
+int main() {
+    char str[100];
+    printf("Введите строку: ");
+    fgets(str, 100, stdin);
+    str[strcspn(str, "\n")] = '\0'; 
+    if (is_palindrome(str)) {
+        printf("Строка является палиндромом.\n");
+    } else {
+        printf("Строка не является палиндромом.\n");
+    }
+    return 0;
+}
