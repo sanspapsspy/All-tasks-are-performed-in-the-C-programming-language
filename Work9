@@ -1,0 +1,9 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+bool isPalindrome(const char *str) {
+    int len =
+...
+
+Чтобы увидеть весь текст, нажмите на кнопку *Развернуть весь ответ* ⬇️
