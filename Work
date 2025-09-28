@@ -1,4 +1,8 @@
-1. Implement a bubble sorting algorithm for an array of numbers
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+
+// 1. Implement a bubble sorting algorithm for an array of numbers
 void bubble_sort(int arr[], int size) {
     for (int i = 0; i < size - 1; i++) {
         for (int j = 0; j < size - i - 1; j++) {
@@ -21,8 +25,8 @@ void bubble_sort(int arr[], int size) {
 //4. В результате выполнения этой программы, массив arr будет отсортирован по возрастанию с помощью алгоритма сортировки пузырьком.
 //Основная идея алгоритма состоит в последовательном сравнении соседних элементов и перемещении больших элементов к концу массива. Это происходит на каждом проходе внешнего цикла, пока весь массив не будет отсортирован.
 
-2. Implement the “reverse” algorithm of a character string
-void reverse_string(char *str) {
+//2. Implement the “reverse” algorithm of a character string
+void reverse_string(char* str) {
     int i, j;
     char temp;
     for (i = 0, j = strlen(str) - 1; i < j; i++, j--) {
@@ -44,9 +48,9 @@ void reverse_string(char *str) {
 //5. Циклы продолжаются, пока указатель i не станет больше или равен указателю j, т.е. пока мы не "переверните" всю строку.
 
 
-3. Implement a function that swaps the values of two int numbers. The input parameters of the function are pointers of the int* type.
+//3. Implement a function that swaps the values of two int numbers.The input parameters of the function are pointers of the int* type.
 //
-void swap(int *a, int *b) {
+void swap(int* a, int* b) {
     int temp = *a;
     *a = *b;
     *b = temp;
@@ -62,10 +66,10 @@ void swap(int *a, int *b) {
 //and then finds the indexes of the minimum and maximum elements in one pass through the array.
 
 
-4. Filling the array with pseudo-random integers and searching for the maximum and minimum in C:
+//4. Filling the array with pseudo - random integers and searching for the maximum and minimum in C :
 #include <stdlib.h>
 
-void fill_array_and_find_minmax(int arr[], int size, int *min_idx, int *max_idx) {
+void fill_array_and_find_minmax(int arr[], int size, int* min_idx, int* max_idx) {
     *min_idx = 0;
     *max_idx = 0;
 
@@ -92,16 +96,18 @@ void fill_array_and_find_minmax(int arr[], int size, int *min_idx, int *max_idx)
 
 
 
-5. Binary search for an element in an array of integers in C:
+//5. Binary search for an element in an array of integers in C :
 int binary_search(int arr[], int size, int target) {
     int left = 0, right = size - 1;
     while (left <= right) {
         int mid = left + (right - left) / 2;
         if (arr[mid] == target) {
             return mid;
-        } else if (arr[mid] < target) {
+        }
+        else if (arr[mid] < target) {
             left = mid + 1;
-        } else {
+        }
+        else {
             right = mid - 1;
         }
     }
@@ -122,30 +128,48 @@ int binary_search(int arr[], int size, int target) {
 //- Если arr[mid] > target, то искомый элемент находится в левой половине массива, поэтому right обновляется на mid - 1.
 //6. Если в результате поиска элемент не был найден, функция возвращает -1 - значение, указывающее на то, что элемент не был обнаружен в массиве.
 
-6. Calculating the determinant of a square matrix in C:
+//6. Calculating the determinant of a square matrix in C :
 #include <math.h>
 
-double determinant(double matrix[size][size], int size) {
-    if (size == 1) {
-        return matrix[0][0];
-    } else if (size == 2) {
-        return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
-    } else {
-        double det = 0;
-        for (int i = 0; i < size; i++) {
-            double submatrix[size - 1][size - 1];
-            for (int j = 1; j < size; j++) {
-                for (int k = 0; k < i; k++) {
-                    submatrix[j - 1][k] = matrix[j][k];
-                }
-                for (int k = i + 1; k < size; k++) {
-                    submatrix[j - 1][k - 1] = matrix[j][k];
-                }
-            }
-            det += (i % 2 == 0 ? 1 : -1) * matrix[0][i] * determinant(submatrix, size - 1);
-        }
-        return det;
+void fill_random_array(int arr[], int n) {
+    srand(time(NULL));  // инициализация генератора случайных чисел
+    for (int i = 0; i < n; i++) {
+        arr[i] = rand() % 20001 - 10000;  // генерируем число в диапазоне [-10000, 10000]
     }
+}
+
+void find_min_max(const int arr[], int n, int* min_val, int* max_val, int* min_idx, int* max_idx) {
+    *min_val = INT_MAX;
+    *max_val = INT_MIN;
+    *min_idx = -1;
+    *max_idx = -1;
+
+    for (int i = 0; i < n; i++) {
+        if (arr[i] < *min_val) {
+            *min_val = arr[i];
+            *min_idx = i;
+        }
+        if (arr[i] > *max_val) {
+            *max_val = arr[i];
+            *max_idx = i;
+        }
+    }
+}
+
+int main(void) {
+    int array[BUFSIZ];
+    printf("Генерирую массив случайных целых чисел...\\n");
+    fill_random_array(array, BUFSIZ);  // заполняем массив случайными числами
+
+    // Найдем минимальные и максимальные значения и их индексы
+    int min_value, max_value, min_index, max_index;
+    find_min_max(array, BUFSIZ, &min_value, &max_value, &min_index, &max_index);
+
+    // Вывод результатов
+    printf("\\nМинимальное значение: %d\\nИндекс: %d\\nМаксимальное значение: %d\\nИндекс: %d\\n",
+        min_value, min_index, max_value, max_index);
+
+    return 0;
 }
 //Этот алгоритм вычисляет определитель квадратной матрицы рекурсивно, используя свойство определителя матрицы. 
 //Для матриц размера 1x1 и 2x2 определитель вычисляется напрямую, а для более крупных матриц рекурсивно вычисляется определитель подматриц размером (n-1)x(n-1).
@@ -160,5 +184,3 @@ double determinant(double matrix[size][size], int size) {
 //- Каждое значение определителя подматрицы умножается на соответствующий элемент первой строки, при этом знак меняется на противоположный для элементов с нечетными индексами.
 //- Полученные произведения суммируются, и результат является значением определителя исходной матрицы.
 //3. Рекурсивный вызов determinant(submatrix, size - 1) используется для вычисления определителей подматриц размером size - 1.
-
-
