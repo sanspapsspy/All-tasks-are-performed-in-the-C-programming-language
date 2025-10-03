@@ -1,0 +1,48 @@
+#include <stdio.h>
+
+int is_prime(int number) {
+    if (number <= 1) return 0;
+    for (int i = 2; i * i <= number; i++) {
+        if (number % i == 0) return 0;
+    }
+    return 1;
+}
+
+int is_natural_number(const char* input) {
+    while (*input) {
+        if (!isdigit(*input)) {
+            return 0; // не является числом
+        }
+        input++;
+    }
+    return 1; // является числом
+}
+
+int main() {
+    char input[100];
+    int number;
+
+    printf("Enter a natural number: ");
+    scanf("%s", input);
+
+    // Проверка на натуральное число
+    if (!is_natural_number(input)) {
+        printf("Error: You must enter a natural number.\n");
+        return 1;  // Завершаем программу при ошибке ввода
+    }
+
+    // Преобразование строки в число
+    number = atoi(input);
+
+    if (number == 0) {
+        printf("0 is neither a prime nor a composite number.\n");
+    }
+    else if (is_prime(number)) {
+        printf("%d is a prime number.\n", number);
+    }
+    else {
+        printf("%d is a composite number.\n", number);
+    }
+
+    return 0;
+}
