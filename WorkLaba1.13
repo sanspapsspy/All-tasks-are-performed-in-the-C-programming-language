@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <assert.h>
+
+// Функция преобразования строки в число
+int convert_from_base(const char* str, int base) {
+    assert(base >= 2 && base <= 36);  // Проверка допустимого основания
+
+    int result = 0;
+    int sign = 1;                     // Положительный знак по умолчанию
+    int digit;
+
+    // Проверяем знак числа
+    if (*str == '-') {
+        sign = -1;
+        str++;
+    }
+
+    // Проходим по каждому символу строки
+    while (*str) {
+        if (isdigit(*str)) {
+            digit = *str - '0';        // Преобразуем цифровую строку в цифру
+        } else if (isupper(*str)) {
+            digit = *str - 'A' + 10;   // Преобразуем заглавную букву в число (A=10, B=11 и т.д.)
+        } else if (islower(*str)) {
+            digit = *str - 'a' + 10;   // Преобразуем строчную букву в число
+        } else {
+            return 0;                  // Некорректный символ в числе
+        }
+
+        // Проверяем, входит ли цифра в допустимую область для указанного основания
+        if (digit >= base) {
+            return 0;                  // Недопустимая цифра для текущего основания
+        }
+
+        // Аккумулируем результат
+        result = result * base + digit;
+        str++;
+    }
+
+    return result * sign;              // Применяем знак
+}
+
+// Тестовая функция для демонстрации работы
+int main() {
+    const char* tests[] = {"1010", "FF", "-A", "Z", "20"};
+    int bases[] = {2, 16, 16, 36, 8};  // Соответствующие основы для тестов
+
+    for (int i = 0; i < sizeof(tests)/sizeof(tests[0]); i++) {
+        int decimal_value = convert_from_base(tests[i], bases[i]);
+        printf("\\"%s\\" в системе счисления с основанием %d = %d\\n", tests[i], bases[i], decimal_value);
+    }
+
+    return 0;
+}
