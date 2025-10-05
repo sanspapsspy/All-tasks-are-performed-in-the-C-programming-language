@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+int get_min_base(const char *num_str) {
+    int min_base = 2;
+    for (const char *p = num_str; *p != '\0'; p++) {
+        if (isdigit(*p)) {
+            min_base = (min_base < *p - '0' + 1) ? *p - '0' + 1 : min_base;
+        } else if (isalpha(*p)) {
+            min_base = (min_base < toupper(*p) - 'A' + 11) ? toupper(*p) - 'A' + 11 : min_base;
+        }
+    }
+    return min_base;
+}
+
+long long convert_to_decimal(const char *num_str, int base) {
+    return strtoll(num_str, NULL, base);
+}
+
+int main(int argc, char *argv[]) {
+    if (argc != 3) {
+        fprintf(stderr, "Использование: %s <входной файл> <выходной файл>\n", argv[0]);
+        return EXIT_FAILURE;
+    }
+
+    FILE *input_file = fopen(argv[1], "r");
+    if (!input_file) {
+        perror("Не удалось открыть входной файл");
+        return EXIT_FAILURE;
+    }
+
+    FILE *output_file = fopen(argv[2], "w");
+    if (!output_file) {
+        perror("Не удалось открыть выходной файл");
+        fclose(input_file);
+        return EXIT_FAILURE;
+    }
+
+    char buffer[256];
+    while (fgets(buffer, sizeof(buffer), input_file)) {
+        char *token = strtok(buffer, " \t\n");
+        while (token) {
+            int min_base = get_min_base(token);
+            long long decimal_value = convert_to_decimal(token, min_base);
+            fprintf(output_file, "%s %d %lld\n", token, min_base, decimal_value);
+            token = strtok(NULL, " \t\n");
+        }
+    }
+
+    fclose(input_file);
+    fclose(output_file);
+    return EXIT_SUCCESS;
+}
