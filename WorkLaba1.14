@@ -21,7 +21,7 @@ long long convert_to_decimal(const char *num_str, int base) {
 
 int main(int argc, char *argv[]) {
     if (argc != 3) {
-        fprintf(stderr, "Использование: %s <входной файл> <выходной файл>\n", argv[0]);
+        fprintf(stderr, "Использование: %s <[entrance.txt](https://github.com/user-attachments/files/22712406/entrance.txt)> <[Новый текстовый документ.txt](https://github.com/user-attachments/files/22712397/default.txt)>\n", argv[0]);
         return EXIT_FAILURE;
     }
 
