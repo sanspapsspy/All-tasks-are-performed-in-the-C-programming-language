@@ -6,8 +6,6 @@
 #include <string.h>
 #include <math.h>
 
-#define EPSILON 1e-8 // Global epsilon value
-
 // Function to check if three numbers can be sides of a triangle
 bool isTriangle(int a, int b, int c) {
     return ((a + b > c) && (a + c > b) && (b + c > a));
