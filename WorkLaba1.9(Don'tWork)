@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+// Функция проверки палиндрома
+int is_palindrome(const char* str) {
+    int len = strlen(str);
+    int left = 0, right = len - 1;
+
+    while (left < right) {
+        // Пропускаем несущественные символы слева
+        while (left < right && !isalnum(str[left]))
+            left++;
+
+        // Пропускаем несущественные символы справа
+        while (left < right && !isalnum(str[right]))
+            right--;
+
+        // Сравнение символов, приведенных к нижнему регистру
+        if (tolower(str[left++]) != tolower(str[right--]))
+            return 0;  // Строка не палиндром
+    }
+
+    return 1;  // Строка — палиндром
+}
+
+// Основной тестовый драйвер
+int main() {
+    const char* test_strings[] = {"A man, a plan, a canal, Panama!",
+                                 "racecar",
+                                 "not a palindrome"};
+
+    for (int i = 0; i < sizeof(test_strings)/sizeof(test_strings[0]); i++) {
+        printf("\\"%s\\" is %sa palindrome.\\n", test_strings[i], is_palindrome(test_strings[i]) ? "" : "NOT ");
+    }
+
+    return 0;
+}
