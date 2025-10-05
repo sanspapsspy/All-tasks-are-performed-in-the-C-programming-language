@@ -1,48 +1,29 @@
 #include <stdio.h>
 
-int is_prime(int number) {
-    if (number <= 1) return 0;
-    for (int i = 2; i * i <= number; i++) {
-        if (number % i == 0) return 0;
-    }
-    return 1;
+// Функция для обмена значений двух целых чисел через указатели
+void swapInts(int *p1, int *p2) {
+    int temp = *p1;     // Временная переменная сохраняет значение первого числа
+    *p1 = *p2;          // Первое число получает значение второго
+    *p2 = temp;         // Второе число получает первоначальное значение первого
 }
 
-int is_natural_number(const char* input) {
-    while (*input) {
-        if (!isdigit(*input)) {
-            return 0; // не является числом
-        }
-        input++;
-    }
-    return 1; // является числом
-}
-
+// Основная программа
 int main() {
-    char input[100];
-    int number;
+    int a, b;
 
-    printf("Enter a natural number: ");
-    scanf("%s", input);
+    // Запрашиваем у пользователя ввод значений
+    printf("Введите первое целое число: ");
+    scanf("%d", &a);
 
-    // Проверка на натуральное число
-    if (!is_natural_number(input)) {
-        printf("Error: You must enter a natural number.\n");
-        return 1;  // Завершаем программу при ошибке ввода
-    }
+    printf("Введите второе целое число: ");
+    scanf("%d", &b);
 
-    // Преобразование строки в число
-    number = atoi(input);
+    printf("\\nДо замены: a = %d, b = %d\\n", a, b);
 
-    if (number == 0) {
-        printf("0 is neither a prime nor a composite number.\n");
-    }
-    else if (is_prime(number)) {
-        printf("%d is a prime number.\n", number);
-    }
-    else {
-        printf("%d is a composite number.\n", number);
-    }
+    // Производим обмен значений через указатели
+    swapInts(&a, &b);
+
+    printf("После замены: a = %d, b = %d\\n", a, b);
 
     return 0;
 }
