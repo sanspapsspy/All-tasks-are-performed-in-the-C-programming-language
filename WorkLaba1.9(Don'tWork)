@@ -1,37 +1,31 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <string.h>
-#include <ctype.h>
+#include<locale.h>
 
-// Функция проверки палиндрома
-int is_palindrome(const char* str) {
-    int len = strlen(str);
-    int left = 0, right = len - 1;
+// Функция проверки строки на палиндром
+bool isPalindrome(const char* str) {
+    int left = 0;              // Левый индекс
+    int right = strlen(str) - 1; // Правый индекс
 
     while (left < right) {
-        // Пропускаем несущественные символы слева
-        while (left < right && !isalnum(str[left]))
-            left++;
-
-        // Пропускаем несущественные символы справа
-        while (left < right && !isalnum(str[right]))
-            right--;
-
-        // Сравнение символов, приведенных к нижнему регистру
-        if (tolower(str[left++]) != tolower(str[right--]))
-            return 0;  // Строка не палиндром
+        if (str[left++] != str[right--]) {
+            return false;       // Если нашли разные символы, возвращаем false
+        }
     }
-
-    return 1;  // Строка — палиндром
+    return true;               // Все символы совпадают, строка — палиндром
 }
 
-// Основной тестовый драйвер
+// Основная демонстрационная функция
 int main() {
-    const char* test_strings[] = {"A man, a plan, a canal, Panama!",
-                                 "racecar",
-                                 "not a palindrome"};
+    setlocale(LC_ALL, "Rus");
+    char testStrings[][50] = { "racecar", "hello", "madam", "abba", "world", "Work!!", "YEpy"};
 
-    for (int i = 0; i < sizeof(test_strings)/sizeof(test_strings[0]); i++) {
-        printf("\\"%s\\" is %sa palindrome.\\n", test_strings[i], is_palindrome(test_strings[i]) ? "" : "NOT ");
+    for (int i = 0; i < sizeof(testStrings) / sizeof(testStrings[0]); i++) {
+        bool result = isPalindrome(testStrings[i]);
+        printf("\"%s\" %s палиндромом.\n",
+            testStrings[i],
+            result ? "является" : "не является");
     }
 
     return 0;
