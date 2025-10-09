@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Функция для печати матрицы
+void print_matrix(int rows, int cols, double matrix[rows][cols]) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            printf("%6.2f ", matrix[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+// Функция сложения матриц
+void add_matrices(int rows, int cols, double mat1[rows][cols], double mat2[rows][cols], double res[rows][cols]) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            res[i][j] = mat1[i][j] + mat2[i][j];
+        }
+    }
+}
+
+// Функция умножения матриц
+void multiply_matrices(int r1, int c1, int c2, double mat1[r1][c1], double mat2[c1][c2], double res[r1][c2]) {
+    for (int i = 0; i < r1; i++) {
+        for (int j = 0; j < c2; j++) {
+            res[i][j] = 0.0;
+            for (int k = 0; k < c1; k++) {
+                res[i][j] += mat1[i][k] * mat2[k][j];
+            }
+        }
+    }
+}
+
+// Основная функция для демонстрации работы
+int main() {
+    // Матрицы для теста
+    double mat1[3][3] = {{1, 2, 3},
+                         {4, 5, 6},
+                         {7, 8, 9}};
+
+    double mat2[3][3] = {{9, 8, 7},
+                         {6, 5, 4},
+                         {3, 2, 1}};
+
+    // 1. Сложение матриц
+    double result_add[3][3];
+    add_matrices(3, 3, mat1, mat2, result_add);
+    printf("Сложение матриц:\n");
+    print_matrix(3, 3, result_add);
+
+    // 2. Умножение матриц
+    double result_mul[3][3];
+    multiply_matrices(3, 3, 3, mat1, mat2, result_mul);
+    printf("\nУмножение матриц:\n");
+    print_matrix(3, 3, result_mul);
+
+    return 0;
+}
