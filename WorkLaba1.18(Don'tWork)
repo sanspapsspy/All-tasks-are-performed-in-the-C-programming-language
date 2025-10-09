@@ -1,0 +1,84 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <math.h>  // Для использования функции fabs()
+
+// Функция для сравнения двух вещественных чисел с заданной точностью
+bool are_equal(double a, double b) {
+    return fabs(a - b) < 1e-6;  // Точность равна 1e-6
+}
+
+// Функция для копирования массива без дублей
+double* remove_duplicates(double src[], int length, int* new_length) {
+    // Выделяем память под новый массив размером, равным длине исходного массива
+    double* unique_array = (double*)malloc(length * sizeof(double));
+    if (!unique_array) {
+        fprintf(stderr, "Ошибка выделения памяти!\n");
+        exit(EXIT_FAILURE);
+    }
+
+    // Флаг для добавления очередного элемента
+    bool added[length];
+    memset(added, false, sizeof(bool) * length);
+
+    // Индексация новых элементов
+    int count_unique = 0;
+
+    // Перебор исходного массива
+    for (int i = 0; i < length; i++) {
+        bool found = false;
+        // Проверяем, встречалось ли такое же значение ранее
+        for (int j = 0; j < count_unique; j++) {
+            if (are_equal(unique_array[j], src[i])) {
+                found = true;
+                break;
+            }
+        }
+        // Если значение уникальное, добавляем его в новый массив
+        if (!found) {
+            unique_array[count_unique++] = src[i];
+        }
+    }
+
+    // Сохраняем длину нового массива
+    *new_length = count_unique;
+
+    // Освобождаем лишнюю память, если новый массив короче исходного
+    if (count_unique < length) {
+        unique_array = realloc(unique_array, count_unique * sizeof(double));
+        if (!unique_array) {
+            fprintf(stderr, "Ошибка перераспределения памяти!\n");
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    return unique_array;
+}
+
+// Основная программа для демонстрации работы
+int main() {
+    double original[] = { 1.1, 2.2, 3.3, 1.1, 4.4, 2.2, 5.5 };
+    int length = sizeof(original) / sizeof(original[0]);
+
+    int new_length;
+    double* unique_array = remove_duplicates(original, length, &new_length);
+
+    // Вывод оригинального массива
+    printf("Оригинальный массив: ");
+    for (int i = 0; i < length; i++) {
+        printf("%.1lf ", original[i]);
+    }
+    printf("\n");
+
+    // Вывод массива без дублей
+    printf("Новый массив без дублей: ");
+    for (int i = 0; i < new_length; i++) {
+        printf("%.1lf ", unique_array[i]);
+    }
+    printf("\n");
+
+    // Освобождение памяти
+    free(unique_array);
+
+    return 0;
+}
