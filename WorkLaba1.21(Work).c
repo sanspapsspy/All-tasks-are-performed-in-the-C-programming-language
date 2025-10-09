@@ -15,7 +15,7 @@ struct Matrix {
 
 // Чтение матрицы из файла
 void read_matrix_from_file(struct Matrix* matrix, const char* filename) {
-    FILE* file = fopen(filename, "r");
+    FILE* file = fopen("Exit.txt", "w");
     if (!file) {
         printf("Ошибка открытия файла!\n");
         exit(EXIT_FAILURE);
